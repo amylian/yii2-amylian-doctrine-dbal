@@ -19,5 +19,10 @@ class Configuration extends \abexto\amylian\yii2\doctrine\base\AbstractDoctrineI
      * @var string Class of the instance to wrap
      */
     public $instClass = \Doctrine\DBAL\Configuration::class;
+    
+    public function init()
+    {
+        parent::init();
+    }
 
 }
