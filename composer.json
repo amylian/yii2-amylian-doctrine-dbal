@@ -1,12 +1,13 @@
 {
-    "name": "amylian/yii2-amylian-doctrine-dbal",
-    "type": "yii2-extension",
-    "require": {
-        "doctrine/dbal": "2.*",
-        "amylian/yii2-amylian-base": "*"
-    },
+  "name": "amylian/yii2-amylian-doctrine-dbal",
+  "type": "yii2-extension",
+  "require": {
+    "doctrine/dbal": "2.*",
+    "amylian/yii2-amylian-base": "*"
+  },
   "autoload": {
     "psr-4": {
       "abexto\\amylian\\yii\\doctrine\\dbal\\": "src/"
     }  
+  }
 }
