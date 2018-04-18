@@ -3,7 +3,7 @@
   "type": "yii2-extension",
   "require": {
     "doctrine/dbal": "2.*",
-    "amylian/yii2-amylian-base": "*"
+    "amylian/yii2-amylian-docrtrine-common": "*"
   },
   "autoload": {
     "psr-4": {
