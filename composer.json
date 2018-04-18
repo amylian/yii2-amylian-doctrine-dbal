@@ -4,5 +4,9 @@
     "require": {
         "doctrine/dbal": "2.*",
         "amylian/yii2-amylian-base": "*"
-    }
+    },
+  "autoload": {
+    "psr-4": {
+      "abexto\\amylian\\yii\\doctrine\\dbal\\": "src/"
+    }  
 }
