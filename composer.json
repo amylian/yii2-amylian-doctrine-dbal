@@ -1,8 +1,8 @@
 {
     "name": "amylian/yii2-amylian-doctrine-dbal",
     "type": "yii2-extension",
-    "minimum-stability": "stable",
     "require": {
-        "doctrine/dbal": "2.*"
+        "doctrine/dbal": "2.*",
+        "amylian/yii2-amylian-base": "*"
     }
 }
