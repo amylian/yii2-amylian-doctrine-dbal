@@ -3,6 +3,6 @@
     "type": "yii2-extension",
     "minimum-stability": "dev",
     "require": {
-        "doctrine/dbal": "2.*@stable"
+        "doctrine/dbal": "2.*-stable"
     }
 }
