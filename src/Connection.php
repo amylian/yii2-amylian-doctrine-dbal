@@ -13,5 +13,15 @@ namespace abexto\amylian\yii\doctrine\dbal;
  */
 class Connection extends AbstractConnection
 {
-    //put your code here
+    /**
+     *
+     * @var string|\abexto\amylian\yii\doctrine\common\EventManager 
+     */
+    protected $_eventManager = 'eventManager';
+    
+    /**
+     *
+     * @var string|\abexto\amylian\yii\doctrine\dbal\Configuration
+     */
+    protected $_configuration = 'configuration';
 }
