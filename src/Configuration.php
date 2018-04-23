@@ -11,7 +11,7 @@ namespace abexto\amylian\yii\doctrine\dbal;
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
-class Configuration extends \abexto\amylian\yii2\doctrine\base\AbstractDoctrineInstWrapperComponent
+class Configuration extends \abexto\amylian\yii\doctrine\base\AbstractDoctrineInstWrapperComponent
 {
 
     /**
@@ -20,9 +20,24 @@ class Configuration extends \abexto\amylian\yii2\doctrine\base\AbstractDoctrineI
      */
     public $instClass = \Doctrine\DBAL\Configuration::class;
     
+    public $resultCache = 'cache';
+
     public function init()
     {
         parent::init();
+    }
+
+    protected function getInstPropertyMappings()
+    {
+        return array_merge(parent::getInstPropertyMappings(), [
+            'resultCache' => 'resultCacheImpl'
+        ]);
+    }
+    
+    protected function setInstProperites($inst, $mappings)
+    {
+        $this->resultCache = $this->resolveReference($this->resultCache);
+        parent::setInstProperites($inst, $mappings);
     }
 
 }

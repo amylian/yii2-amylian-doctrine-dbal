@@ -1,6 +1,6 @@
 <?php
 
-define ('ABEXTO_LOGEIA_VENDOR_PATH' , __DIR__.'/../../vendor');
-require_once ABEXTO_LOGEIA_VENDOR_PATH.'/autoload.php';
-abexto\logeia\yii\phpunit\Bootstrap::initEnv(__FILE__);
+define ('ABEXTO_AMYLIAN_VENDOR_PATH' , __DIR__.'/../../../..');
+require_once ABEXTO_AMYLIAN_VENDOR_PATH.'/autoload.php';
+abexto\amylian\yii\phpunit\Bootstrap::initEnv(__FILE__);
 
