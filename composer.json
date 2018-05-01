@@ -1,13 +1,35 @@
 {
   "name": "amylian/yii2-amylian-doctrine-dbal",
+  "description": "ATTENTION EXPERIMENTAL! Doctrine/DBAL Components for Yii2",
   "type": "yii2-extension",
+  "authors": [{
+      "name": "Andreas Prucha (Abexto - Helicon Software Development - Andreas Prucha / Amylian Project)",
+      "email": "andreas.prucha@gmail.com",
+      "homepage": "http://www.abexto.com",
+      "role": "Developer"
+    }    
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
   "require": {
-    "doctrine/dbal": "2.*",
+    "doctrine/dbal": "^2.5",
     "amylian/yii2-amylian-doctrine-common": "*"
+  },
+  "require-dev": {
+    "amylian/yii2-amyian-phpunit": "*"
   },
   "autoload": {
     "psr-4": {
       "abexto\\amylian\\yii\\doctrine\\dbal\\": "src/"
+    }  
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "abexto\\amylian\\yii\\doctrine\\dbal\\tests\\": "tests/"
     }  
   }
 }

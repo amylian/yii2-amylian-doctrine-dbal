@@ -1,0 +1,26 @@
+<phpunit
+  colors="true"
+  verbose="true"
+  failOnRisky="true"
+  beStrictAboutChangesToGlobalState="true"
+  beStrictAboutOutputDuringTests="true"
+  beStrictAboutTestsThatDoNotTestAnything="true"
+  bootstrap="./tests/bootstrap.php"
+>
+
+
+  <testsuites>
+    <testsuite name="Abexto Amylian Doctrine DBAL Test Suite">
+      <directory>./tests/units</directory>
+    </testsuite>
+  </testsuites>
+
+  <php>
+    <env name="db_type" value="mysql"/>
+    <env name="db_host" value="localhost" />
+    <env name="db_username" value="abexto_amylian_tests" />
+    <env name="db_password" value="abexto_amylian_tests" />
+    <env name="db_name" value="abexto_amylian_tests" />
+  </php>
+
+</phpunit>
