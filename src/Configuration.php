@@ -20,24 +20,25 @@ class Configuration extends \abexto\amylian\yii\doctrine\base\AbstractDoctrineIn
      */
     public $instClass = \Doctrine\DBAL\Configuration::class;
     
-    public $resultCache = 'cache';
+    public $resultCache = \abexto\amylian\yii\doctrine\cache\AbstractCache::class;
 
     public function init()
     {
         parent::init();
+        $this->resultCache = \abexto\amylian\yii\doctrine\cache\AbstractCache::ensure($this->resultCache);
     }
 
     protected function getInstPropertyMappings()
     {
         return array_merge(parent::getInstPropertyMappings(), [
-            'resultCache' => 'resultCacheImpl'
+            'resultCache' => true
         ]);
     }
     
-    protected function setInstProperites($inst, $mappings)
+    public function setInstPropertyResultCache($value, $inst = null)
     {
-        $this->resultCache = $this->resolveReference($this->resultCache);
-        parent::setInstProperites($inst, $mappings);
+        $inst->setResultCacheImpl($value->inst);
     }
+    
 
 }

@@ -31,5 +31,8 @@
     "psr-4": {
       "abexto\\amylian\\yii\\doctrine\\dbal\\tests\\": "tests/"
     }  
+  },
+  "extra": {
+    "bootstrap": "abexto\\amylian\\yii\\doctrine\\common\\PackageBoostrap"
   }
 }
