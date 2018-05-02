@@ -33,6 +33,6 @@
     }  
   },
   "extra": {
-    "bootstrap": "abexto\\amylian\\yii\\doctrine\\common\\PackageBoostrap"
+    "bootstrap": "abexto\\amylian\\yii\\doctrine\\dbal\\PackageBoostrap"
   }
 }
