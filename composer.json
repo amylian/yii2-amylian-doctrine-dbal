@@ -20,7 +20,7 @@
     "amylian/yii2-amylian-doctrine-common": "*"
   },
   "require-dev": {
-    "amylian/yii2-amyian-phpunit": "*"
+    "amylian/yii2-amylian-phpunit": "*"
   },
   "autoload": {
     "psr-4": {
