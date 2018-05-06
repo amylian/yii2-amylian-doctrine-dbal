@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "doctrine/dbal": "^2.5",
+    "doctrine/dbal": "@stable",
     "amylian/yii2-amylian-doctrine-common": "*"
   },
   "require-dev": {
