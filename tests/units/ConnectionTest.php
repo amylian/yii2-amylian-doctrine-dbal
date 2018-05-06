@@ -39,7 +39,7 @@ namespace abexto\amylian\yii\dbal\tests\units;
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
-class ConnectionTestCase extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
+class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
 {
 
     public function testGetConnectionInst()
