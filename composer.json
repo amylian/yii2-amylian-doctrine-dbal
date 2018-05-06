@@ -2,6 +2,8 @@
   "name": "amylian/yii2-amylian-doctrine-dbal",
   "description": "ATTENTION EXPERIMENTAL! Doctrine/DBAL Components for Yii2",
   "type": "yii2-extension",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "authors": [{
       "name": "Andreas Prucha (Abexto - Helicon Software Development - Andreas Prucha / Amylian Project)",
       "email": "andreas.prucha@gmail.com",
