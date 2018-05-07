@@ -35,12 +35,13 @@
 namespace abexto\amylian\yii\doctrine\dbal;
 
 /**
- * Description of BaseConnection
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
-abstract class BaseConnection extends \abexto\amylian\yii\doctrine\base\AbstractDoctrineInstWrapperComponent
-implements ConnectionInterface, BaseConnectionInterface
+interface ConnectionInterface
 {
-    //put your code here
+    /**
+     * @return null|\Doctrine\DBAL\Connection
+     */
+    public function getInst();
 }

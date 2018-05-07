@@ -35,18 +35,12 @@
 namespace abexto\amylian\yii\doctrine\dbal;
 
 /**
- * Basic 
  * @author Andreas Prucha, Abexto - Helicon Software Development
  * 
  * @proprety \Doctrine\DBAL\Connection $inst Wrapped Doctrine Connection
  */
 interface BaseConnectionInterface
 {
-    /**
-     * @return null|\Doctrine\DBAL\Connection
-     */
-    public function getInst();
-    
     public function connect();
     
     public function isConnected();

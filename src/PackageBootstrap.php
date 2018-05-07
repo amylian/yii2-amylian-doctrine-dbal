@@ -48,10 +48,10 @@ class PackageBootstrap implements \yii\base\BootstrapInterface
     public function bootstrap($app)
     {
         if (!\Yii::$container->has(Configuration::class)) {
-            \Yii::$container->setSingleton(Configuration::class, ['class' => Configuration::class]);
+            \Yii::$container->setSingleton(\abexto\amylian\yii\doctrine\common\ConfigurationInterface::class, ['class' => Configuration::class]);
         }
         if (!\Yii::$container->has(Connection::class)) {
-            \Yii::$container->setSingleton(Connection::class, ['class' => Connection::class]);
+            \Yii::$container->setSingleton(ConnectionInterface::class, ['class' => Connection::class]);
         }
     }
 

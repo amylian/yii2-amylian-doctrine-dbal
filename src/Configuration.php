@@ -12,6 +12,7 @@ namespace abexto\amylian\yii\doctrine\dbal;
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
 class Configuration extends \abexto\amylian\yii\doctrine\base\AbstractDoctrineInstWrapperComponent
+        implements \abexto\amylian\yii\doctrine\common\ConfigurationInterface
 {
 
     /**
@@ -19,7 +20,6 @@ class Configuration extends \abexto\amylian\yii\doctrine\base\AbstractDoctrineIn
      * @var string Class of the instance to wrap
      */
     public $instClass = \Doctrine\DBAL\Configuration::class;
-    
     public $resultCache = \abexto\amylian\yii\doctrine\cache\AbstractCache::class;
 
     public function init()
@@ -34,11 +34,10 @@ class Configuration extends \abexto\amylian\yii\doctrine\base\AbstractDoctrineIn
             'resultCache' => true
         ]);
     }
-    
+
     public function setInstPropertyResultCache($value, $inst = null)
     {
         $inst->setResultCacheImpl($value->inst);
     }
-    
 
 }
