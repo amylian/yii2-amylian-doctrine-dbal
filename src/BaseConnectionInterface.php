@@ -39,7 +39,7 @@ namespace abexto\amylian\yii\doctrine\dbal;
  * 
  * @proprety \Doctrine\DBAL\Connection $inst Wrapped Doctrine Connection
  */
-interface BaseConnectionInterface
+interface BaseConnectionInterface extends \abexto\amylian\yii\doctrine\base\common\BaseDoctrineComponentInterface
 {
     public function connect();
     

@@ -39,8 +39,7 @@ namespace abexto\amylian\yii\doctrine\dbal;
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
-abstract class BaseConnection extends \abexto\amylian\yii\doctrine\base\AbstractDoctrineInstWrapperComponent
-implements ConnectionInterface, BaseConnectionInterface
+abstract class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineComponent
+implements BaseConnectionInterface
 {
-    //put your code here
 }

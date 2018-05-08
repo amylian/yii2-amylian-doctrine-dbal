@@ -47,11 +47,11 @@ class PackageBootstrap implements \yii\base\BootstrapInterface
      */
     public function bootstrap($app)
     {
-        if (!\Yii::$container->has(ConfigurationInterface::class)) {
-            \Yii::$container->setSingleton(\abexto\amylian\yii\doctrine\common\ConfigurationInterface::class, ['class' => Configuration::class]);
+        if (!\Yii::$container->has(Consts::DEFAULT_CONFIGURATION_REF)) {
+            \Yii::$container->setSingleton(Consts::DEFAULT_CONFIGURATION_REF, ['class' => Consts::DEFAULT_CONFIGURATION_CLASS]);
         }
-        if (!\Yii::$container->has(ConnectionInterface::class)) {
-            \Yii::$container->setSingleton(ConnectionInterface::class, ['class' => Connection::class]);
+        if (!\Yii::$container->has(Consts::DEFAULT_CONNECTION_REF)) {
+            \Yii::$container->setSingleton(Consts::DEFAULT_CONNECTION_REF, ['class' => Consts::DEFAULT_CONNECTION_CLASS]);
         }
     }
 

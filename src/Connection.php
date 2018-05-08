@@ -15,6 +15,8 @@ namespace abexto\amylian\yii\doctrine\dbal;
  */
 class Connection extends BaseConnection
 {
+    const DEFAULT_REF = Consts::DEFAULT_CONNECTION_REF;
+    const DEFAULT_CLASS = Consts::DEFAULT_CONNECTION_CLASS;
 
     /**
      * @var string Class of the instance to wrap
@@ -22,15 +24,15 @@ class Connection extends BaseConnection
     public $instClass = null;
 
     /**
-     * @var string|\abexto\amylian\yii\doctrine\common\EventManager
+     * @var string|\abexto\amylian\yii\doctrine\common\BaseEventManager
      */
-    public $eventManager = \abexto\amylian\yii\doctrine\common\EventManagerInterface::class;
+    public $eventManager = \abexto\amylian\yii\doctrine\common\BaseEventManagerInterface::class;
 
     /**
      *
      * @var string|Configuration
      */
-    public $configuration = \abexto\amylian\yii\doctrine\dbal\ConfigurationInterface::class;
+    public $configuration = \abexto\amylian\yii\doctrine\common\BaseConfigurationInterface::class;
     
     public $connectionParams = [];
     
@@ -57,7 +59,7 @@ class Connection extends BaseConnection
     public function init()
     {
         parent::init();
-        $this->eventManager  = \abexto\amylian\yii\doctrine\common\EventManager::ensure($this->eventManager);
+        $this->eventManager  = \abexto\amylian\yii\doctrine\common\BaseEventManager::ensure($this->eventManager);
         $this->configuration = \abexto\amylian\yii\doctrine\dbal\Configuration::ensure($this->configuration);
     }
 

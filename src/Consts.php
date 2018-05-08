@@ -35,13 +35,13 @@
 namespace abexto\amylian\yii\doctrine\dbal;
 
 /**
+ * Commonly used constants 
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
-interface ConnectionInterface
+class Consts extends \abexto\amylian\yii\doctrine\common\Consts
 {
-    /**
-     * @return null|\Doctrine\DBAL\Connection
-     */
-    public function getInst();
+    const DEFAULT_CONFIGURATION_CLASS = Configuration::class;
+    const DEFAULT_CONNECTION_REF = BaseConnectionInterface::class;
+    const DEFAULT_CONNECTION_CLASS = Connection::class;
 }

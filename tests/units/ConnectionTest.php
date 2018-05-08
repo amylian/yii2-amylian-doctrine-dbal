@@ -55,8 +55,8 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ],
             'container'  => [
                 'singletons' => [
-                    \abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class => [
-                        'class'            => \abexto\amylian\yii\doctrine\dbal\Connection::class,
+                \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
+                        'class'            => \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
                         'connectionParams' => [
                             'dbname'   => $_ENV['db_name'],
                             'user'     => $_ENV['db_username'],
@@ -69,7 +69,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ]
         ]);
 
-        $connection = \abexto\amylian\yii\doctrine\base\InstanceManager::ensure(\abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class);
+        $connection = \abexto\amylian\yii\doctrine\dbal\Connection::ensure();
         $this->assertInstanceOf(\Doctrine\DBAL\Connection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
@@ -88,14 +88,14 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ],
             'container'  => [
                 'singletons' => [
-                    \abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class => [
-                        'class' => \abexto\amylian\yii\doctrine\dbal\Connection::class,
+                    \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
+                        'class' => \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
                         'pdo'   => 'db',
                     ]
                 ]
             ]
         ]);
-        $connection = \abexto\amylian\yii\doctrine\dbal\Connection::ensure([]);
+        $connection = \abexto\amylian\yii\doctrine\dbal\Connection::ensure();
         $this->assertInstanceOf(\Doctrine\DBAL\Connection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
@@ -114,8 +114,8 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ],
             'container'  => [
                 'singletons' => [
-                    \abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class => [
-                        'class' => \abexto\amylian\yii\doctrine\dbal\Connection::class,
+                    \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
+                        'class' => \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
                         'pdo'   => 'db',
                     ]
                 ]
