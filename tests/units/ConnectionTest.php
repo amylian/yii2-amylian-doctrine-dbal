@@ -47,12 +47,6 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
         static::mockYiiConsoleApplication([
             'bootstrap'  => [
                 [
-                    'class' => \abexto\amylian\yii\doctrine\common\PackageBootstrap::class
-                ],
-                [
-                    'class' => \abexto\amylian\yii\doctrine\cache\PackageBootstrap::class
-                ],
-                [
                     'class' => \abexto\amylian\yii\doctrine\dbal\PackageBootstrap::class
                 ],
             ],
