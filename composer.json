@@ -19,7 +19,7 @@
   ],
   "require": {
     "doctrine/dbal": "^2.5@stable",
-    "amylian/yii2-amylian-doctrine-common": "dev-master"
+    "amylian/yii2-amylian-doctrine-common": "dev-master@dev"
   },
   "require-dev": {
     "amylian/yii2-amylian-phpunit": "*"
