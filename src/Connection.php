@@ -24,13 +24,13 @@ class Connection extends BaseConnection
     /**
      * @var string|\abexto\amylian\yii\doctrine\common\EventManager
      */
-    public $eventManager = \abexto\amylian\yii\doctrine\common\EventManager::class;
+    public $eventManager = \abexto\amylian\yii\doctrine\common\EventManagerInterface::class;
 
     /**
      *
      * @var string|Configuration
      */
-    public $configuration = \abexto\amylian\yii\doctrine\dbal\Configuration::class;
+    public $configuration = \abexto\amylian\yii\doctrine\dbal\ConfigurationInterface::class;
     
     public $connectionParams = [];
     

@@ -61,7 +61,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ],
             'container'  => [
                 'singletons' => [
-                    \abexto\amylian\yii\doctrine\dbal\Connection::class => [
+                    \abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class => [
                         'class'            => \abexto\amylian\yii\doctrine\dbal\Connection::class,
                         'connectionParams' => [
                             'dbname'   => $_ENV['db_name'],
@@ -75,7 +75,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ]
         ]);
 
-        $connection = \abexto\amylian\yii\doctrine\dbal\Connection::ensure([]);
+        $connection = \abexto\amylian\yii\doctrine\base\InstanceManager::ensure(\abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class);
         $this->assertInstanceOf(\Doctrine\DBAL\Connection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
@@ -94,9 +94,9 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ],
             'container'  => [
                 'singletons' => [
-                    \abexto\amylian\yii\doctrine\dbal\Connection::class => [
-                        'class'            => \abexto\amylian\yii\doctrine\dbal\Connection::class,
-                        'pdo' => 'db',
+                    \abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class => [
+                        'class' => \abexto\amylian\yii\doctrine\dbal\Connection::class,
+                        'pdo'   => 'db',
                     ]
                 ]
             ]
@@ -105,6 +105,31 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
         $this->assertInstanceOf(\Doctrine\DBAL\Connection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
+    }
+
+    public function testDIInjection()
+    {
+        static::mockYiiConsoleApplication(['components' => [
+                'cache' => ['class' => \yii\caching\ArrayCache::class],
+                'db'    => [
+                    'class'    => \yii\db\Connection::class,
+                    'dsn'      => $_ENV['db_type'] . ':host=' . $_ENV['db_host'] . ';dbname=' . $_ENV['db_name'],
+                    'username' => $_ENV['db_username'],
+                    'password' => $_ENV['db_password']
+                ],
+            ],
+            'container'  => [
+                'singletons' => [
+                    \abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class => [
+                        'class' => \abexto\amylian\yii\doctrine\dbal\Connection::class,
+                        'pdo'   => 'db',
+                    ]
+                ]
+            ]
+        ]);
+        
+        $diTester = \Yii::createObject(\abexto\amylian\yii\doctrine\dbal\tests\classes\TestDIInjection::class);
+        $this->assertSame(\yii\di\Instance::ensure(\abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class), $diTester->gotConnection);
     }
 
 }
