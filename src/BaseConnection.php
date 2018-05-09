@@ -12,6 +12,7 @@ namespace abexto\amylian\yii\doctrine\dbal;
  * @author Andreas Prucha, Abexto - Helicon Software Development
  * 
  * @property \Doctrine\DBAL\Connection $inst Doctrine Connection
+ * @property-write bool bool $autoCommit Enable autocommit
  */
 class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineComponent implements BaseConnectionInterface
 {
@@ -30,7 +31,7 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
 
     /**
      *
-     * @var string|Configuration
+     * @var string|BaseConfiguration
      */
     public $configuration = \abexto\amylian\yii\doctrine\common\BaseConfigurationInterface::class;
     
@@ -39,13 +40,13 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
     /**
      * @var bool Enables autoCommit
      */
-    public $_autoCommit = true;
+    protected $_autoCommit = true;
     
     /**
      * Used Transaction Isolation Level
      * @var int One of the \Doctrine\DBAL\Connection::TRANSACTION_Xxxx constants.
      */
-    public $_transactionIsolation = \Doctrine\DBAL\Connection::TRANSACTION_READ_COMMITTED;
+    protected $_transactionIsolation = \Doctrine\DBAL\Connection::TRANSACTION_READ_COMMITTED;
 
     /**
      * Reference to an pdo connection to share
@@ -60,7 +61,7 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
     {
         parent::init();
         $this->eventManager  = \abexto\amylian\yii\doctrine\common\BaseEventManager::ensure($this->eventManager);
-        $this->configuration = \abexto\amylian\yii\doctrine\dbal\Configuration::ensure($this->configuration);
+        $this->configuration = \abexto\amylian\yii\doctrine\dbal\BaseConfiguration::ensure($this->configuration);
     }
 
     public function getPdo($ensure = true)
@@ -156,9 +157,9 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
         return $result;
     }
     
-    public function setTransactionIsolation($isolation)
+    public function setTransactionIsolation($level)
     {
-        $this->_transactionIsolation = $isolation;
+        $this->_transactionIsolation = $level;
         if ($this->hasInst()) {
             $this->inst->setTransactionIsolation($level);
         }
@@ -166,7 +167,20 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
     
     public function getTransactionIsolation()
     {
-        return ($this->hasInst()) ? $this->inst->getTransactionIsolation() : $this->_transactionIsolation = $isolation;
+        return $this->hasInst() ? $this->inst->getTransactionIsolation() : $this->_transactionIsolation;
+    }
+    
+    public function setAutoCommit($autoCommit)
+    {
+        $this->_autoCommit = $autoCommit;
+        if ($this->hasInst()) {
+            $this->inst->setAutoCommit($autoCommit);
+        }
+    }
+    
+    public function getAutoCommit()
+    {
+        return $this->_autoCommit;
     }
 
 }

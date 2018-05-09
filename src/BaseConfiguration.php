@@ -11,7 +11,7 @@ namespace abexto\amylian\yii\doctrine\dbal;
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
-class Configuration extends \abexto\amylian\yii\doctrine\common\BaseConfiguration
+class BaseConfiguration extends \abexto\amylian\yii\doctrine\common\BaseConfiguration
 {
     const DEFAULT_REF = Consts::DEFAULT_CONFIGURATION_REF;
     const DEFAULT_CLASS = Consts::DEFAULT_CONFIGURATION_CLASS;

@@ -45,7 +45,7 @@ class TestDIInjection extends \yii\base\BaseObject
     public $gotConnection;
     
     public function __construct(\abexto\amylian\yii\doctrine\common\BaseConfigurationInterface $gotConfiguration,
-                                \abexto\amylian\yii\doctrine\dbal\ConnectionInterface $gotConnection,
+ \abexto\amylian\yii\doctrine\dbal\BaseConnectionInterfaceConnectionInterface $gotConnection,
                                 array $config = [])
     {
         $this->gotConfiguration = $gotConfiguration;
