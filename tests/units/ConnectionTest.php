@@ -32,14 +32,14 @@
  * 
  */
 
-namespace abexto\amylian\yii\dbal\tests\units;
+namespace amylian\yii\dbal\tests\units;
 
 /**
  * Description of ConnectionTestCase
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
-class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
+class ConnectionTest extends \amylian\yii\phpunit\AbstractYiiTestCase
 {
 
     public function testGetConnectionInst()
@@ -47,7 +47,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
         static::mockYiiConsoleApplication([
             'bootstrap'  => [
                 [
-                    'class' => \abexto\amylian\yii\doctrine\dbal\PackageBootstrap::class
+                    'class' => \amylian\yii\doctrine\dbal\PackageBootstrap::class
                 ],
             ],
             'components' => [
@@ -55,8 +55,8 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ],
             'container'  => [
                 'singletons' => [
-                \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
-                        'class'            => \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
+                \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
+                        'class'            => \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
                         'connectionParams' => [
                             'dbname'   => $_ENV['db_name'],
                             'user'     => $_ENV['db_username'],
@@ -69,7 +69,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ]
         ]);
 
-        $connection = \abexto\amylian\yii\doctrine\dbal\BaseConnection::ensure();
+        $connection = \amylian\yii\doctrine\dbal\Connection::ensure();
         $this->assertInstanceOf(\Doctrine\DBAL\Connection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
@@ -88,14 +88,14 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ],
             'container'  => [
                 'singletons' => [
-                    \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
-                        'class' => \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
+                    \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
+                        'class' => \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
                         'pdo'   => 'db',
                     ]
                 ]
             ]
         ]);
-        $connection = \abexto\amylian\yii\doctrine\dbal\BaseConnection::ensure();
+        $connection = \amylian\yii\doctrine\dbal\Connection::ensure();
         $this->assertInstanceOf(\Doctrine\DBAL\Connection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
@@ -114,16 +114,16 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ],
             'container'  => [
                 'singletons' => [
-                    \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
-                        'class' => \abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
+                    \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
+                        'class' => \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
                         'pdo'   => 'db',
                     ]
                 ]
             ]
         ]);
         
-        $diTester = \Yii::createObject(\abexto\amylian\yii\doctrine\dbal\tests\classes\TestDIInjection::class);
-        $this->assertSame(\yii\di\Instance::ensure(\abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF), $diTester->gotConnection);
+        $diTester = \Yii::createObject(\amylian\yii\doctrine\dbal\tests\classes\TestDIInjection::class);
+        $this->assertSame(\yii\di\Instance::ensure(\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF), $diTester->gotConnection);
     }
 
 }

@@ -4,14 +4,14 @@
  * Copyright 2018 Andreas Prucha, Abexto - Helicon Software Development.
  */
 
-namespace abexto\amylian\yii\doctrine\dbal;
+namespace amylian\yii\doctrine\dbal;
 
 /**
  * Description of Configuration
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  */
-class BaseConfiguration extends \abexto\amylian\yii\doctrine\common\BaseConfiguration
+class BaseConfiguration extends \amylian\yii\doctrine\common\BaseConfiguration
 {
     const DEFAULT_REF = Consts::DEFAULT_CONFIGURATION_REF;
     const DEFAULT_CLASS = Consts::DEFAULT_CONFIGURATION_CLASS;
@@ -22,14 +22,14 @@ class BaseConfiguration extends \abexto\amylian\yii\doctrine\common\BaseConfigur
     public $instClass = \Doctrine\DBAL\Configuration::class;
     /**
      * Used Cache Interface
-     * @var string|\abexto\amylian\yii\doctrine\cache\CacheInterface|\abexto\amylian\yii\doctrine\cache\BaseCache
+     * @var string|\amylian\yii\doctrine\cache\CacheInterface|\amylian\yii\doctrine\cache\BaseCache
      */
-    public $resultCache = \abexto\amylian\yii\doctrine\cache\BaseCacheInterface::class;
+    public $resultCache = \amylian\yii\doctrine\cache\BaseCacheInterface::class;
 
     public function init()
     {
         parent::init();
-        $this->resultCache = \abexto\amylian\yii\doctrine\cache\BaseCache::ensure($this->resultCache);
+        $this->resultCache = \amylian\yii\doctrine\cache\BaseCache::ensure($this->resultCache);
     }
 
     protected function getInstPropertyMappings()

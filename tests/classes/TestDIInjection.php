@@ -32,7 +32,7 @@
  * 
  */
 
-namespace abexto\amylian\yii\doctrine\dbal\tests\classes;
+namespace amylian\yii\doctrine\dbal\tests\classes;
 
 /**
  * Description of TestDIInjection
@@ -44,8 +44,8 @@ class TestDIInjection extends \yii\base\BaseObject
     public $gotConfiguration;
     public $gotConnection;
     
-    public function __construct(\abexto\amylian\yii\doctrine\common\BaseConfigurationInterface $gotConfiguration,
- \abexto\amylian\yii\doctrine\dbal\BaseConnectionInterfaceConnectionInterface $gotConnection,
+    public function __construct(\amylian\yii\doctrine\common\BaseConfigurationInterface $gotConfiguration,
+ \amylian\yii\doctrine\dbal\BaseConnectionInterfaceConnectionInterface $gotConnection,
                                 array $config = [])
     {
         $this->gotConfiguration = $gotConfiguration;

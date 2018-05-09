@@ -31,15 +31,15 @@
   },
   "autoload": {
     "psr-4": {
-      "abexto\\amylian\\yii\\doctrine\\dbal\\": "src/"
+      "amylian\\yii\\doctrine\\dbal\\": "src/"
     }  
   },
   "autoload-dev": {
     "psr-4": {
-      "abexto\\amylian\\yii\\doctrine\\dbal\\tests\\": "tests/"
+      "amylian\\yii\\doctrine\\dbal\\tests\\": "tests/"
     }  
   },
   "extra": {
-    "bootstrap": "abexto\\amylian\\yii\\doctrine\\dbal\\PackageBootstrap"
+    "bootstrap": "amylian\\yii\\doctrine\\dbal\\PackageBootstrap"
   }
 }

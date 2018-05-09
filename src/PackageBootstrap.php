@@ -32,7 +32,7 @@
  * 
  */
 
-namespace abexto\amylian\yii\doctrine\dbal;
+namespace amylian\yii\doctrine\dbal;
 
 /**
  * Description of PackageBootstrap

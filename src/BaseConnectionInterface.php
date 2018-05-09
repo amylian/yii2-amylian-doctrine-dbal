@@ -32,14 +32,14 @@
  * 
  */
 
-namespace abexto\amylian\yii\doctrine\dbal;
+namespace amylian\yii\doctrine\dbal;
 
 /**
  * @author Andreas Prucha, Abexto - Helicon Software Development
  * 
  * @proprety \Doctrine\DBAL\Connection $inst Wrapped Doctrine Connection
  */
-interface BaseConnectionInterface extends \abexto\amylian\yii\doctrine\base\common\BaseDoctrineComponentInterface
+interface BaseConnectionInterface extends \amylian\yii\doctrine\base\common\BaseDoctrineComponentInterface
 {
     public function connect();
     
