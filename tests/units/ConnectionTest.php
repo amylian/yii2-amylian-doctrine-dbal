@@ -69,7 +69,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ]
         ]);
 
-        $connection = \abexto\amylian\yii\doctrine\dbal\Connection::ensure();
+        $connection = \abexto\amylian\yii\doctrine\dbal\BaseConnection::ensure();
         $this->assertInstanceOf(\Doctrine\DBAL\Connection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
@@ -96,7 +96,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
             ]
         ]);
         $connection = \abexto\amylian\yii\doctrine\dbal\Connection::ensure();
-        $this->assertInstanceOf(\Doctrine\DBAL\Connection::class, $connection->inst);
+        $this->assertInstanceOf(\Doctrine\DBAL\BaseConnection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
     }

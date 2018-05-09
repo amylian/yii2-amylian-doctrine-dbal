@@ -1,45 +1,152 @@
 <?php
 
 /*
- * BSD 3-Clause License
- * 
- * Copyright (c) 2018, Abexto - Helicon Software Development / Amylian Project
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * 
- * * Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- * 
- * * Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- * 
- * * Neither the name of the copyright holder nor the names of its
- *   contributors may be used to endorse or promote products derived from
- *   this software without specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ * Copyright 2018 Andreas Prucha, Abexto - Helicon Software Development.
  */
 
 namespace abexto\amylian\yii\doctrine\dbal;
 
 /**
- * Description of BaseConnection
+ * Description of AbstractConnection
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
+ * 
+ * @property \Doctrine\DBAL\Connection $inst 
  */
-abstract class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineComponent
-implements BaseConnectionInterface
+class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineComponent implements BaseConnectionInterface
 {
+    const DEFAULT_REF = Consts::DEFAULT_CONNECTION_REF;
+    const DEFAULT_CLASS = Consts::DEFAULT_CONNECTION_CLASS;
+
+    /**
+     * @var string Class of the instance to wrap
+     */
+    public $instClass = null;
+
+    /**
+     * @var string|\abexto\amylian\yii\doctrine\common\BaseEventManager
+     */
+    public $eventManager = \abexto\amylian\yii\doctrine\common\BaseEventManagerInterface::class;
+
+    /**
+     *
+     * @var string|Configuration
+     */
+    public $configuration = \abexto\amylian\yii\doctrine\common\BaseConfigurationInterface::class;
+    
+    public $connectionParams = [];
+    
+    /**
+     * @var bool Enables autoCommit
+     */
+    public $autoCommit = true;
+    
+    /**
+     * Used Transaction Isolation Level
+     * @var int One of the \Doctrine\DBAL\Connection::TRANSACTION_Xxxx constants.
+     */
+    public $transactionIsolation = \Doctrine\DBAL\Connection::TRANSACTION_READ_COMMITTED;
+
+    /**
+     * Reference to an pdo connection to share
+     * 
+     * if null, a new connection will be created
+     * 
+     * @var string|\yii\db\Connection|
+     */
+    private $_pdo = null;
+
+    public function init()
+    {
+        parent::init();
+        $this->eventManager  = \abexto\amylian\yii\doctrine\common\BaseEventManager::ensure($this->eventManager);
+        $this->configuration = \abexto\amylian\yii\doctrine\dbal\Configuration::ensure($this->configuration);
+    }
+
+    public function getPdo($ensure = true)
+    {
+        if ($ensure && $this->_pdo !== null) {
+            return $this->_pdo = \yii\di\Instance::ensure($this->_pdo);
+        } else {
+            return $this->_pdo;
+        }
+    }
+
+    public function setPdo($value)
+    {
+        $this->_pdo = $value;
+    }
+
+    public function getPdoReference()
+    {
+        $pdo = $this->getPdo();
+        if ($pdo instanceof \PDO) {
+            return $pdo;
+        } elseif ($pdo instanceof \yii\db\Connection) {
+            $pdo->open(); // make sure, the conneciton is open
+            return $pdo->pdo;
+        } else {
+            return null;
+        }
+    }
+
+    protected function getInstPropertyMappings()
+    {
+        return array_merge(parent::getInstPropertyMappings(),
+        ['autoCommit' => true,
+         'transactionIsolation' => true,
+        ]);
+    }
+
+    protected function createNewInst()
+    {
+        //
+        // As we completely rely on Doctrines DriverManager in this case, parent is not called
+        // and the method is reintroduced
+        // 
+
+        if (!isset($this->connectionParams['wrapperClass']) && $this->instClass) {
+            $this->connectionParams['wrapperClass'] = $this->instClass;
+        }
+
+        if ($this->pdo && !isset($this->connectionParams['pdo'])) {
+            if (!$this->pdo instanceof \PDO) {
+                $this->connectionParams['pdo'] = $this->getPdoReference();
+            }
+        }
+
+        $result = \Doctrine\DBAL\DriverManager::getConnection($this->connectionParams, $this->configuration->inst,
+                                                              $this->eventManager->inst);
+
+        //
+        // Use automatic property setter
+        //
+        
+        $this->setInstProperites($result, $this->getInstPropertyMappings());
+
+        //
+        // RETURN the new Instance and ===> EXIT
+        //
+
+        return $result;
+    }
+
+    public function connect()
+    {
+        return $this->getInst()->connect();
+    }
+
+    public function isConnected()
+    {
+        return $this->hasInst() && $this->getInst()->isConnected();
+    }
+    /**
+     * {@inheritDoc}
+     * NOTE: The returned value is always an object implementing the {@link BaseConnectionInterface}
+     */
+    public static function ensure($reference = self::USE_DEFAULT_REF, $type = null, $container = null): BaseConnectionInterface
+    {
+        parent::ensure($reference, $type, $container);
+    }
+
 }
