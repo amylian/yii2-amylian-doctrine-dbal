@@ -151,7 +151,7 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
         if (!$result instanceof BaseConnectionInterface) {
             throw new \yii\base\InvalidValueException(static::class.'::ensure() needs to return an object implementing '.
                     BaseConnectionInterface::class.
-                    ' (The object of class '.$result::class.' does not).');
+                    ' (The object of class '.get_class($result).' does not).');
         }
         return $result;
     }
