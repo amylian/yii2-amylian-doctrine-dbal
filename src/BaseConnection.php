@@ -11,7 +11,7 @@ namespace abexto\amylian\yii\doctrine\dbal;
  *
  * @author Andreas Prucha, Abexto - Helicon Software Development
  * 
- * @property \Doctrine\DBAL\Connection $inst 
+ * @property \Doctrine\DBAL\Connection $inst Doctrine Connection
  */
 class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineComponent implements BaseConnectionInterface
 {
@@ -39,13 +39,13 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
     /**
      * @var bool Enables autoCommit
      */
-    public $autoCommit = true;
+    public $_autoCommit = true;
     
     /**
      * Used Transaction Isolation Level
      * @var int One of the \Doctrine\DBAL\Connection::TRANSACTION_Xxxx constants.
      */
-    public $transactionIsolation = \Doctrine\DBAL\Connection::TRANSACTION_READ_COMMITTED;
+    public $_transactionIsolation = \Doctrine\DBAL\Connection::TRANSACTION_READ_COMMITTED;
 
     /**
      * Reference to an pdo connection to share
@@ -154,6 +154,19 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
                     ' (The object of class '.get_class($result).' does not).');
         }
         return $result;
+    }
+    
+    public function setTransactionIsolation($isolation)
+    {
+        $this->_transactionIsolation = $isolation;
+        if ($this->hasInst()) {
+            $this->inst->setTransactionIsolation($level);
+        }
+    }
+    
+    public function getTransactionIsolation()
+    {
+        return ($this->hasInst()) ? $this->inst->getTransactionIsolation() : $this->_transactionIsolation = $isolation;
     }
 
 }

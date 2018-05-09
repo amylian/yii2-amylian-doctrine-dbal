@@ -95,7 +95,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
                 ]
             ]
         ]);
-        $connection = \abexto\amylian\yii\doctrine\dbal\Connection::ensure();
+        $connection = \abexto\amylian\yii\doctrine\dbal\BaseConnection::ensure();
         $this->assertInstanceOf(\Doctrine\DBAL\BaseConnection::class, $connection->inst);
         $connection->inst->connect();
         $this->assertTrue($connection->inst->isConnected());
@@ -123,7 +123,7 @@ class ConnectionTest extends \abexto\amylian\yii\phpunit\AbstractYiiTestCase
         ]);
         
         $diTester = \Yii::createObject(\abexto\amylian\yii\doctrine\dbal\tests\classes\TestDIInjection::class);
-        $this->assertSame(\yii\di\Instance::ensure(\abexto\amylian\yii\doctrine\dbal\ConnectionInterface::class), $diTester->gotConnection);
+        $this->assertSame(\yii\di\Instance::ensure(\abexto\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF), $diTester->gotConnection);
     }
 
 }
