@@ -143,10 +143,17 @@ class BaseConnection extends \abexto\amylian\yii\doctrine\base\BaseDoctrineCompo
     /**
      * {@inheritDoc}
      * NOTE: The returned value is always an object implementing the {@link BaseConnectionInterface}
+     * @return BaseConnectionInterface|BaseConnection
      */
-    public static function ensure($reference = self::USE_DEFAULT_REF, $type = null, $container = null): BaseConnectionInterface
+    public static function ensure($reference = self::USE_DEFAULT_REF, $type = null, $container = null): \abexto\amylian\yii\doctrine\base\common\BaseDoctrineComponentInterface
     {
-        parent::ensure($reference, $type, $container);
+        $result = parent::ensure($reference, $type, $container);
+        if (!$result instanceof BaseConnectionInterface) {
+            throw new \yii\base\InvalidValueException(static::class.'::ensure() needs to return an object implementing '.
+                    BaseConnectionInterface::class.
+                    ' (The object of class '.$result::class.' does not).');
+        }
+        return $result;
     }
 
 }
