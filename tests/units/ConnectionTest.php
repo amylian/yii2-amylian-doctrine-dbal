@@ -2,23 +2,23 @@
 
 /*
  * BSD 3-Clause License
- * 
+ *
  * Copyright (c) 2018, Abexto - Helicon Software Development / Amylian Project
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * * Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- * 
+ * list of conditions and the following disclaimer.
+ *
  * * Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- * 
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
  * * Neither the name of the copyright holder nor the names of its
- *   contributors may be used to endorse or promote products derived from
- *   this software without specific prior written permission.
- * 
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,9 +29,8 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  */
-
 namespace amylian\yii\dbal\tests\units;
 
 /**
@@ -45,24 +44,26 @@ class ConnectionTest extends \amylian\yii\phpunit\AbstractYiiTestCase
     public function testGetConnectionInst()
     {
         static::mockYiiConsoleApplication([
-            'bootstrap'  => [
+            'bootstrap' => [
                 [
                     'class' => \amylian\yii\doctrine\dbal\PackageBootstrap::class
-                ],
+                ]
             ],
             'components' => [
-                'cache' => ['class' => \yii\caching\ArrayCache::class]
+                'cache' => [
+                    'class' => \yii\caching\ArrayCache::class
+                ]
             ],
-            'container'  => [
+            'container' => [
                 'singletons' => [
-                \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
-                        'class'            => \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
+                    \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
+                        'class' => \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
                         'connectionParams' => [
-                            'dbname'   => $_ENV['db_name'],
-                            'user'     => $_ENV['db_username'],
+                            'dbname' => $_ENV['db_name'],
+                            'user' => $_ENV['db_username'],
                             'password' => $_ENV['db_password'],
-                            'host'     => $_ENV['db_host'],
-                            'driver'   => 'pdo_' . $_ENV['db_type']
+                            'host' => $_ENV['db_host'],
+                            'driver' => 'pdo_' . $_ENV['db_type']
                         ]
                     ]
                 ]
@@ -77,20 +78,28 @@ class ConnectionTest extends \amylian\yii\phpunit\AbstractYiiTestCase
 
     public function testGetConnectionYiiDbPdoResulse()
     {
-        static::mockYiiConsoleApplication(['components' => [
-                'cache' => ['class' => \yii\caching\ArrayCache::class],
-                'db'    => [
-                    'class'    => \yii\db\Connection::class,
-                    'dsn'      => $_ENV['db_type'] . ':host=' . $_ENV['db_host'] . ';dbname=' . $_ENV['db_name'],
+        static::mockYiiConsoleApplication([
+            'bootstrap' => [
+                [
+                    'class' => \amylian\yii\doctrine\dbal\PackageBootstrap::class
+                ]
+            ],
+            'components' => [
+                'cache' => [
+                    'class' => \yii\caching\ArrayCache::class
+                ],
+                'db' => [
+                    'class' => \yii\db\Connection::class,
+                    'dsn' => $_ENV['db_type'] . ':host=' . $_ENV['db_host'] . ';dbname=' . $_ENV['db_name'],
                     'username' => $_ENV['db_username'],
                     'password' => $_ENV['db_password']
-                ],
+                ]
             ],
-            'container'  => [
+            'container' => [
                 'singletons' => [
                     \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
                         'class' => \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
-                        'pdo'   => 'db',
+                        'pdo' => 'db'
                     ]
                 ]
             ]
@@ -103,27 +112,34 @@ class ConnectionTest extends \amylian\yii\phpunit\AbstractYiiTestCase
 
     public function testDIInjection()
     {
-        static::mockYiiConsoleApplication(['components' => [
-                'cache' => ['class' => \yii\caching\ArrayCache::class],
-                'db'    => [
-                    'class'    => \yii\db\Connection::class,
-                    'dsn'      => $_ENV['db_type'] . ':host=' . $_ENV['db_host'] . ';dbname=' . $_ENV['db_name'],
+        static::mockYiiConsoleApplication([
+            'bootstrap' => [
+                [
+                    'class' => \amylian\yii\doctrine\dbal\PackageBootstrap::class
+                ]
+            ],
+            'components' => [
+                'cache' => [
+                    'class' => \yii\caching\ArrayCache::class
+                ],
+                'db' => [
+                    'class' => \yii\db\Connection::class,
+                    'dsn' => $_ENV['db_type'] . ':host=' . $_ENV['db_host'] . ';dbname=' . $_ENV['db_name'],
                     'username' => $_ENV['db_username'],
                     'password' => $_ENV['db_password']
-                ],
+                ]
             ],
-            'container'  => [
+            'container' => [
                 'singletons' => [
                     \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF => [
                         'class' => \amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_CLASS,
-                        'pdo'   => 'db',
+                        'pdo' => 'db'
                     ]
                 ]
             ]
         ]);
-        
+
         $diTester = \Yii::createObject(\amylian\yii\doctrine\dbal\tests\classes\TestDIInjection::class);
         $this->assertSame(\yii\di\Instance::ensure(\amylian\yii\doctrine\dbal\Consts::DEFAULT_CONNECTION_REF), $diTester->gotConnection);
     }
-
 }
