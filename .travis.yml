@@ -16,7 +16,6 @@ services:
     
 env:
   - YII_VERSION="2.0.*"
-  - YII_VERSION="2.1.*@dev"
 
 before_install:
     - pecl channel-update pecl.php.net
