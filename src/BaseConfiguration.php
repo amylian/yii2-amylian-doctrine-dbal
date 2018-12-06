@@ -22,7 +22,7 @@ class BaseConfiguration extends \amylian\yii\doctrine\common\BaseConfiguration
     public $instClass = \Doctrine\DBAL\Configuration::class;
     /**
      * Used Cache Interface
-     * @var string|\amylian\yii\doctrine\cache\CacheInterface|\amylian\yii\doctrine\cache\BaseCache
+     * @var string|\amylian\yii\doctrine\cache\BaseCacheInterface|\amylian\yii\doctrine\cache\BaseCache
      */
     public $resultCache = \amylian\yii\doctrine\cache\BaseCacheInterface::class;
 
