@@ -1,1 +1,3 @@
 /tests/runtime/cache/
+/vendor/
+/composer.lock
