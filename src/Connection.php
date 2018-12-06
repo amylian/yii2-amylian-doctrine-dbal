@@ -144,7 +144,7 @@ class Connection extends BaseConnection
     /**
      * {@inheritDoc}
      * NOTE: The returned value is always an object implementing the {@link BaseConnectionInterface}
-     * @return ConnectionInterface|BaseConnection
+     * @return BaseConnectionInterface|BaseConnection
      */
     public static function ensure($reference = self::USE_DEFAULT_REF, $type = null, $container = null): \amylian\yii\doctrine\base\common\BaseDoctrineComponentInterface
     {
