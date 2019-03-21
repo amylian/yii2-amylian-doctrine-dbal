@@ -1,186 +1,123 @@
 <?php
 
 /*
- * Copyright 2018 Andreas Prucha, Abexto - Helicon Software Development.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
 namespace amylian\yii\doctrine\dbal;
 
 /**
- * Description of AbstractConnection
+ * Description of Connection
  *
- * @author Andreas Prucha, Abexto - Helicon Software Development
+ * @author andreas
  * 
- * @property \Doctrine\DBAL\Connection $inst Doctrine Connection
- * @property-write bool bool $autoCommit Enable autocommit
+ * @property \Doctrine\DBAL\Connection $wrappedConnection Wrapped Connection
  */
-class Connection extends BaseConnection
+class Connection
+        extends \yii\base\BaseObject
+        implements \amylian\yii\doctrine\base\common\ConfigurableDoctrineInterface,
+        ConfigurableConnectionInterface
 {
-    const DEFAULT_REF = Consts::DEFAULT_CONNECTION_REF;
-    const DEFAULT_CLASS = Consts::DEFAULT_CONNECTION_CLASS;
+
+    use \amylian\yii\doctrine\base\common\ConfigurableDoctrineTrait;
 
     /**
-     * @var string Class of the instance to wrap
+     * @var string DriverManager Helper Class to use for initiation
      */
-    public $instClass = null;
+    public $driverManagerClass = \Doctrine\DBAL\DriverManager::class;
 
     /**
-     * @var string|\amylian\yii\doctrine\common\EventManager
+     * @var \Doctrine\DBAL\Connection
      */
-    public $eventManager = \amylian\yii\doctrine\common\BaseEventManagerInterface::class;
+    protected $wrappedConnection = null;
 
-    /**
-     *
-     * @var string|BaseConfiguration
-     */
-    public $configuration = \amylian\yii\doctrine\common\BaseConfigurationInterface::class;
-    
-    public $connectionParams = [];
-    
-    /**
-     * @var bool Enables autoCommit
-     */
-    protected $_autoCommit = true;
-    
-    /**
-     * Used Transaction Isolation Level
-     * @var int One of the \Doctrine\DBAL\Connection::TRANSACTION_Xxxx constants.
-     */
-    protected $_transactionIsolation = \Doctrine\DBAL\Connection::TRANSACTION_READ_COMMITTED;
-
-    /**
-     * Reference to an pdo connection to share
-     * 
-     * if null, a new connection will be created
-     * 
-     * @var string|\yii\db\Connection|
-     */
-    private $_pdo = null;
-
-    public function init()
+    public function __construct(array $configurationArray = [])
     {
-        parent::init();
-        $this->eventManager  = \amylian\yii\doctrine\common\EventManager::ensure($this->eventManager);
-        $this->configuration = \amylian\yii\doctrine\dbal\BaseConfiguration::ensure($this->configuration);
+        $configurationArray = $this->mergeDefaultConfigurationArray($configurationArray);
+
+        $params = $configurationArray['params'] ?? [];
+        unset($configurationArray['params']);
+
+        $configuration = \yii\di\Instance::ensure($configurationArray['configuration'], \Doctrine\DBAL\Configuration::class);
+        unset($configurationArray['configuration']);
+
+        $eventManager = \yii\di\Instance::ensure($configurationArray['eventManager'], \Doctrine\Common\EventManager::class);
+        unset($configurationArray['eventManager']);
+
+        $this->wrappedConnection = $this->driverManagerClass::getConnection($params, $configuration, $eventManager);
+
+        $this->assignConfigurationAttributesFromArray($configurationArray);
     }
 
-    public function getPdo($ensure = true)
+    public function getDefaultConfigurationArray(): array
     {
-        if ($ensure && $this->_pdo !== null) {
-            return $this->_pdo = \yii\di\Instance::ensure($this->_pdo);
-        } else {
-            return $this->_pdo;
-        }
+        return
+                [
+                    'configuration' => Consts::DEFAULT_CONFIGURATION,
+                    'eventManager' => Consts::DEFAULT_EVENT_MANAGER
+        ];
     }
 
-    public function setPdo($value)
+    public function getWrappedConnection(): \Doctrine\DBAL\Connection
     {
-        $this->_pdo = $value;
+        return $this->wrappedConnection;
     }
 
-    public function getPdoReference()
+    public function setWrappedConnection(\Doctrine\DBAL\Connection $wrappedConnection)
     {
-        $pdo = $this->getPdo();
-        if ($pdo instanceof \PDO) {
-            return $pdo;
-        } elseif ($pdo instanceof \yii\db\Connection) {
-            $pdo->open(); // make sure, the conneciton is open
-            return $pdo->pdo;
-        } else {
-            return null;
-        }
+        $this->wrappedConnection = $wrappedConnection;
     }
 
-    protected function getInstPropertyMappings()
+    public function beginTransaction()
     {
-        return array_merge(parent::getInstPropertyMappings(),
-        ['autoCommit' => true,
-         'transactionIsolation' => true,
-        ]);
+        return $this->wrappedConnection->beginTransaction();
     }
 
-    protected function createNewInst()
+    public function commit()
     {
-        //
-        // As we completely rely on Doctrines DriverManager in this case, parent is not called
-        // and the method is reintroduced
-        // 
-
-        if (!isset($this->connectionParams['wrapperClass']) && $this->instClass) {
-            $this->connectionParams['wrapperClass'] = $this->instClass;
-        }
-
-        if ($this->pdo && !isset($this->connectionParams['pdo'])) {
-            if (!$this->pdo instanceof \PDO) {
-                $this->connectionParams['pdo'] = $this->getPdoReference();
-            }
-        }
-
-        $result = \Doctrine\DBAL\DriverManager::getConnection($this->connectionParams, $this->configuration->inst,
-                                                              $this->eventManager->inst);
-
-        //
-        // Use automatic property setter
-        //
-        
-        $this->setInstProperites($result, $this->getInstPropertyMappings());
-
-        //
-        // RETURN the new Instance and ===> EXIT
-        //
-
-        return $result;
+        return $this->wrappedConnection->commit();
     }
 
-    public function connect()
+    public function errorCode()
     {
-        return $this->getInst()->connect();
+        return $this->wrappedConnection->errorCode();
     }
 
-    public function isConnected()
+    public function errorInfo()
     {
-        return $this->hasInst() && $this->getInst()->isConnected();
+        return $this->wrappedConnection->errorInfo();
     }
-    /**
-     * {@inheritDoc}
-     * NOTE: The returned value is always an object implementing the {@link BaseConnectionInterface}
-     * @return BaseConnectionInterface|BaseConnection
-     */
-    public static function ensure($reference = self::USE_DEFAULT_REF, $type = null, $container = null): \amylian\yii\doctrine\base\common\BaseDoctrineComponentInterface
+
+    public function exec($statement)
     {
-        $result = parent::ensure($reference, $type, $container);
-        if (!$result instanceof BaseConnectionInterface) {
-            throw new \yii\base\InvalidValueException(static::class.'::ensure() needs to return an object implementing '.
-                    BaseConnectionInterface::class.
-                    ' (The object of class '.get_class($result).' does not).');
-        }
-        return $result;
+        return $this->wrappedConnection->exec($statement);
     }
-    
-    public function setTransactionIsolation($level)
+
+    public function lastInsertId($name = null): string
     {
-        $this->_transactionIsolation = $level;
-        if ($this->hasInst()) {
-            $this->inst->setTransactionIsolation($level);
-        }
+        return $this->wrappedConnection->lastInsertId($name);
     }
-    
-    public function getTransactionIsolation()
+
+    public function prepare($prepareString)
     {
-        return $this->hasInst() ? $this->inst->getTransactionIsolation() : $this->_transactionIsolation;
+        return $this->wrappedConnection->prepare($prepareString);
     }
-    
-    public function setAutoCommit($autoCommit)
+
+    public function query()
     {
-        $this->_autoCommit = $autoCommit;
-        if ($this->hasInst()) {
-            $this->inst->setAutoCommit($autoCommit);
-        }
+        return $this->wrappedConnection->query();
     }
-    
-    public function getAutoCommit()
+
+    public function quote($input, $type = ParameterType::STRING)
     {
-        return $this->_autoCommit;
+        return $this->wrappedConnection->quote($input, $type);
+    }
+
+    public function rollBack()
+    {
+        return $this->wrappedConnection->rollBack();
     }
 
 }

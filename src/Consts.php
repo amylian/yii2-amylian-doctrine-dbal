@@ -41,7 +41,16 @@ namespace amylian\yii\doctrine\dbal;
  */
 class Consts extends \amylian\yii\doctrine\common\Consts
 {
+    const DEFAULT_CONFIGURATION = Configuration::class;
+    const DEFAULT_CONFIGURATION_CLASS = Configuration::class;
+    
+    const DEFAULT_CONNECTION = Connection::class;
+    const DEFAULT_CONNECTION_CLASS = Connection::class;
+    
+    /**
     const DEFAULT_CONFIGURATION_CLASS = BaseConfiguration::class;
     const DEFAULT_CONNECTION_REF = BaseConnectionInterface::class;
     const DEFAULT_CONNECTION_CLASS = Connection::class;
+    const DEFAULT_CACHE = \amylian\yii\doctrine\cache\ConfigurableCacheInterface::class;
+    */
 }
