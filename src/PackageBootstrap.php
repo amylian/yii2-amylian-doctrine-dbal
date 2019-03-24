@@ -47,12 +47,6 @@ class PackageBootstrap implements \yii\base\BootstrapInterface
      */
     public function bootstrap($app)
     {
-        if (!\Yii::$container->has(Consts::DEFAULT_CONFIGURATION)) {
-            \Yii::$container->setSingleton(Consts::DEFAULT_CONFIGURATION, ['class' => Consts::DEFAULT_CONFIGURATION_CLASS]);
-        }
-        if (!\Yii::$container->has(Consts::DEFAULT_CONNECTION)) {
-            \Yii::$container->setSingleton(Consts::DEFAULT_CONNECTION, ['class' => Consts::DEFAULT_CONNECTION]);
-        }
     }
 
 }

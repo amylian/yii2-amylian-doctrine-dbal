@@ -6,15 +6,14 @@
  * and open the template in the editor.
  */
 
-namespace amylian\yii\doctrine\dbal;
+namespace Amylian\Yii\Doctrine\DBAL;
 
 /**
  * Description of Configuration
  *
  * @author andreas
  */
-class Configuration extends \Doctrine\DBAL\Configuration implements ConfigurationInterface
+class Configuration extends Amylian\Doctrine\DBAL\Configuration
 {
-    use Amylian\Utils\ṔropertyTrait;
-    use ConfigurationTrait;
+    //put your code here
 }
