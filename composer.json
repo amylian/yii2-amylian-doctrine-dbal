@@ -29,6 +29,7 @@
 		"php" : "^7.1",
 		"doctrine/dbal" : "^2.5@stable",
 		"amylian/amylian-utils" : "dev-master@dev",
+		"amylian/amylian-doctrine-dbal" : "dev-master@dev",
 		"amylian/yii2-amylian-doctrine-common" : "dev-master@dev",
 		"amylian/yii2-amylian-doctrine-cache" : "dev-master@dev"
 	},
