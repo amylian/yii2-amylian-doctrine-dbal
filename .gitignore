@@ -1,3 +1,4 @@
 /tests/runtime/cache/
 /vendor/
 /composer.lock
+/nbproject/private/
