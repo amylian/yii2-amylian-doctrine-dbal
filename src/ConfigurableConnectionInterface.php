@@ -12,7 +12,7 @@ namespace amylian\yii\doctrine\dbal;
  *
  * @author andreas
  */
-interface ConfigurableConnectionInterface extends \Doctrine\DBAL\Driver\Connection, \amylian\yii\doctrine\base\common\ConfigurableDoctrineInterface
+interface ConnectionInterface extends \Doctrine\DBAL\Driver\Connection
 { 
     public function getWrappedConnection(): \Doctrine\DBAL\Connection;
 }

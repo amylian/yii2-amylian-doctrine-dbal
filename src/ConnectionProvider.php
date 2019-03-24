@@ -15,7 +15,12 @@ namespace amylian\yii\doctrine\dbal;
  */
 class ConnectionProvider implements ConnectionProviderInterface
 {
-    use Property
+    use \Amylian\Utils\ṔropertyTrait;
+    
+    /**
+     * @var ConfigurationInterface 
+     */
+    protected $configuraiton = null;
     
     /**
      * @var \Doctrine\DBAL\Connection
@@ -28,21 +33,58 @@ class ConnectionProvider implements ConnectionProviderInterface
      */
     protected $connectionParams = [];
     
-    public function getConnectionParams(): array;
+    public function __construct(ConfigurationInterface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+    
+    /**
+     * Returns the configured connection parameters
+     * @return array
+     */
+    public function getConnectionParams(): array
     {
         return $this->connectionParams;
     }
     
+    /**
+     * Sets the connection parameters
+     * @return array
+     */
     public function setConnectionParams(Array $params)
     {
         $this->connectionParams = $params;
     }
     
+    /**
+     * Creates the actual connection
+     * 
+     * This function is called by {@seel getActualConnection()} if the
+     * connection has not been created yet andreturns the new connection 
+     * 
+     * @return \Doctrine\DBAL\Connection
+     */
+    protected function createActualConnection(): \Doctrine\DBAL\Connection
+    {
+        return \Doctrine\DBAL\DriverManager::getConnection($this->getConnectionParams(), 
+                $this->getConfiguration, $eventManager);
+    }
+    
     public function getActualConnection(): \Doctrine\DBAL\Connection
     {
         if (!$this->$actualConnection) {
-            
+            $this->$actualConnection = $this->createActualConnection();
         }
+    }
+    
+    public function getConfiguration(): ConfigurationInterface
+    {
+        return $this->configuraiton;
+    }
+    
+    public function setConfiguration($configuration)
+    {
+        $this->configuration = $configuration;
     }
 
 }

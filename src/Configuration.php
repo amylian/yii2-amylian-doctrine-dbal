@@ -13,10 +13,8 @@ namespace amylian\yii\doctrine\dbal;
  *
  * @author andreas
  */
-class Configuration extends \Doctrine\DBAL\Configuration implements ConfigurableConfigurationInterface
+class Configuration extends \Doctrine\DBAL\Configuration implements ConfigurationInterface
 {
-
-    use \amylian\yii\doctrine\base\common\ConfigurableDoctrineTrait;
+    use Amylian\Utils\ṔropertyTrait;
     use ConfigurationTrait;
-
 }

@@ -12,7 +12,6 @@ namespace amylian\yii\doctrine\dbal;
  *
  * @author andreas
  */
-interface ConfigurableConfigurationInterface extends \amylian\yii\doctrine\base\common\ConfigurableDoctrineInterface
+interface ConfigurationInterface
 {
-    //put your code here
 }

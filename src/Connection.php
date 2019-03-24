@@ -15,10 +15,7 @@ namespace amylian\yii\doctrine\dbal;
  * 
  * @property \Doctrine\DBAL\Connection $wrappedConnection Wrapped Connection
  */
-class Connection
-        extends \yii\base\BaseObject
-        implements \amylian\yii\doctrine\base\common\ConfigurableDoctrineInterface,
-        ConfigurableConnectionInterface
+class Connection extends \Doctrine\DBAL\Connection implements ConnectionInterface
 {
 
     use \amylian\yii\doctrine\base\common\ConfigurableDoctrineTrait;
